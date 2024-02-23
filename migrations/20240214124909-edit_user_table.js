@@ -1,12 +1,11 @@
 'use strict';
 
-const { DataTypes } = require('sequelize');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('Users', 'password', {
-      type: DataTypes.STRING,
+    await queryInterface.addColumn('Users', 'adress', {
+      type: Sequelize.STRING,
+      allowNull: true,
     });
   },
 
