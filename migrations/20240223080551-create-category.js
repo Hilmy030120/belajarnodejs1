@@ -2,32 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Makanans', {
+        await queryInterface.createTable('Categories', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            namaPemesan: {
+            name: {
                 type: Sequelize.STRING,
             },
-            namaMakanan: {
+            description: {
                 type: Sequelize.STRING,
+                allowNull: true,
             },
-            namaMinuman: {
-                type: Sequelize.STRING,
-            },
-            harga: {
-                type: Sequelize.INTEGER,
-            },
-            totalPesanan: {
-                type: Sequelize.INTEGER,
+            status: {
+                type: Sequelize.BOOLEAN,
             },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
-                defaultValue: Sequelize.NOW, // or Sequelize.fn('now') or Sequelize.NOW,
+                defaultValue: Sequelize.NOW,
             },
             updatedAt: {
                 allowNull: false,
@@ -35,8 +30,18 @@ module.exports = {
                 defaultValue: Sequelize.NOW,
             },
         });
+        await queryInterface.addColumn('Makanans', 'category_id', {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'Categories',
+                key: 'id',
+                as: 'category_id',
+            },
+        });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Makanans');
+        await queryInterface.dropTable('Categories');
+        await queryInterface.removeColumn('Makanans', 'category_id');
     },
 };
